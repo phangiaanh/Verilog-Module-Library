@@ -5,22 +5,22 @@
     Seven_Segment_Translator translates a 4-bit number into a 7-segment form to display on board
 **/
 
-module Seven_Segment_Translator( four_bit_number, common_anod, seven_segment_number );
+module Seven_Segment_Translator( i_FOUR_BIT_NUMBER, i_COMMON_ANOD, o_SEVEN_SEGMENT_NUMBER );
 
-    input   [3 : 0] four_bit_number;
-    input   common_anod;
+    input   [3 : 0] i_FOUR_BIT_NUMBER;
+    input   i_COMMON_ANOD;
 
-    output  [6 : 0] seven_segment_number;
+    output  [6 : 0] o_SEVEN_SEGMENT_NUMBER;
 
     reg     [6 : 0] temp_seven_segment;
     wire    [6 : 0] temp_seven_segment_para;
 
     assign  temp_seven_segment_para = temp_seven_segment;
 
-    Multiplexer_2   Choose_anod_or_catod[6 : 0](.true_signal(temp_seven_segment_para), .false_signal(~temp_seven_segment_para), .bit_select({7{common_anod}}), .signal_out(seven_segment_number));
+    Multiplexer_2   Choose_anod_or_catod[6 : 0](.i_TRUE_SIGNAL(temp_seven_segment_para), .i_FALSE_SIGNAL(~temp_seven_segment_para), .i_BIT_SELECT({7{i_COMMON_ANOD}}), .o_SIGNAL_OUT(o_SEVEN_SEGMENT_NUMBER));
 
     always @(*) begin
-        case (four_bit_number)
+        case (i_FOUR_BIT_NUMBER)
             4'b0000 : temp_seven_segment <= 7'b1000000;
             4'b0001 : temp_seven_segment <= 7'b1111001;
             4'b0010 : temp_seven_segment <= 7'b0100100;

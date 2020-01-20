@@ -5,19 +5,19 @@
     Multiplexer_2 will choose the output signal based on two input signals and the select bit 
 **/
 
-module Multiplexer_2( true_signal, false_signal, bit_select, signal_out );
+module Multiplexer_2( i_TRUE_SIGNAL, i_FALSE_SIGNAL, i_BIT_SELECT, o_SIGNAL_OUT );
 
-    input   true_signal, false_signal, bit_select;
+    input   i_TRUE_SIGNAL, i_FALSE_SIGNAL, i_BIT_SELECT;
 
-    output  signal_out;
+    output  o_SIGNAL_OUT;
 
     wire    bit_select_neg, temp_first_out, temp_second_out;
 
-    not slect_neg_gen(bit_select_neg, bit_select);
+    not slect_neg_gen(bit_select_neg, i_BIT_SELECT);
 
-    and temp_first_out_gen(temp_first_out, true_signal, bit_select),
-        temp_second_out_gen(temp_second_out, false_signal, bit_select_neg);
+    and temp_first_out_gen(temp_first_out, i_TRUE_SIGNAL, i_BIT_SELECT),
+        temp_second_out_gen(temp_second_out, i_FALSE_SIGNAL, bit_select_neg);
 
-    or  choose_signal(signal_out, temp_first_out, temp_second_out);
+    or  choose_signal(o_SIGNAL_OUT, temp_first_out, temp_second_out);
 
 endmodule

@@ -6,20 +6,20 @@
     This can be set using the parameter ASYNCHRONOUS
 **/
 
-module JK_FlipFlop( signal_J, signal_K, clock_pos, preset_neg, reset_neg, signal_out, signal_out_neg );
+module JK_FlipFlop( i_SIGNAL_J, i_SIGNAL_K, i_CLOCK_POS, i_PRESET_NEG, i_RESET_NEG, o_SIGNAL_OUT, o_SIGNAL_OUT_NEG );
 
     parameter   ASYNCHRONOUS= 1;
 
-    input   signal_J, signal_K, clock_pos, preset_neg, reset_neg;
+    input   i_SIGNAL_J, i_SIGNAL_K, i_CLOCK_POS, i_PRESET_NEG, i_RESET_NEG;
 
-    output  signal_out, signal_out_neg;
+    output  o_SIGNAL_OUT, o_SIGNAL_OUT_NEG;
 
     wire    asyn_out, asyn_out_neg, sync_out, sync_out_neg;
 
-    JK_FlipFlop_Asyn Asyn(.signal_J(signal_J), .signal_K(signal_K), .clock_pos(clock_pos), .preset_neg(preset_neg), .reset_neg(reset_neg), .signal_out(asyn_out), .signal_out_neg(asyn_out_neg));
-    JK_FlipFlop_Sync Sync(.signal_J(signal_J), .signal_K(signal_K), .clock_pos(clock_pos), .preset_neg(preset_neg), .reset_neg(reset_neg), .signal_out(sync_out), .signal_out_neg(sync_out_neg));
+    JK_FlipFlop_Asyn Asyn(.i_SIGNAL_J(i_SIGNAL_J), .i_SIGNAL_K(i_SIGNAL_K), .i_CLOCK_POS(i_CLOCK_POS), .i_PRESET_NEG(i_PRESET_NEG), .i_RESET_NEG(i_RESET_NEG), .o_SIGNAL_OUT(asyn_out), .o_SIGNAL_OUT_NEG(asyn_out_neg));
+    JK_FlipFlop_Sync Sync(.i_SIGNAL_J(i_SIGNAL_J), .i_SIGNAL_K(i_SIGNAL_K), .i_CLOCK_POS(i_CLOCK_POS), .i_PRESET_NEG(i_PRESET_NEG), .i_RESET_NEG(i_RESET_NEG), .o_SIGNAL_OUT(sync_out), .o_SIGNAL_OUT_NEG(sync_out_neg));
 
-    Multiplexer_2   Choose_Asyn_Sync(.true_signal(asyn_out), .false_signal(sync_out), .bit_select(ASYNCHRONOUS), .signal_out(signal_out)),
-                    Choose_Asyn_Sync_neg(.true_signal(asyn_out_neg), .false_signal(sync_out_neg), .bit_select(ASYNCHRONOUS), .signal_out(signal_out_neg));
+    Multiplexer_2   Choose_Asyn_Sync(.i_TRUE_SIGNAL(asyn_out), .i_FALSE_SIGNAL(sync_out), .i_BIT_SELECT(ASYNCHRONOUS), .o_SIGNAL_OUT(o_SIGNAL_OUT)),
+                    Choose_Asyn_Sync_neg(.i_TRUE_SIGNAL(asyn_out_neg), .i_FALSE_SIGNAL(sync_out_neg), .i_BIT_SELECT(ASYNCHRONOUS), .o_SIGNAL_OUT(o_SIGNAL_OUT_NEG));
 
 endmodule
