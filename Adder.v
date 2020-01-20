@@ -1,26 +1,26 @@
 /**
     Author: Phan Gia Anh
-    Updated: 15/1/2020
+    Updated: 19/1/2020
 
     Adder takes two vectors as inputs and give out the sum of two vectors
     The size of two vectors are the same and can be changed through parameter SIZE 
 **/
 
-module Adder( vector_one, vector_two, vector_sum );
+module Adder( i_VECTOR_ONE, i_VECTOR_TWO, o_VECTOR_SUM );
 
     parameter   SIZE = 4;
 
-    input   [SIZE - 1 : 0] vector_one, vector_two;
+    input   [SIZE - 1 : 0] i_VECTOR_ONE, i_VECTOR_TWO;
 
-    output  [SIZE : 0] vector_sum;
+    output  [SIZE : 0] o_VECTOR_SUM;
 
     wire    [SIZE - 1 : 0] temp_result;
     wire    [SIZE - 2 : 0] temp_carry;
     wire    bit_carry;
 
 
-    Full_Adder  add_vector[SIZE - 1 : 0](.bit_one(vector_one), .bit_two(vector_two), .bit_in({temp_carry, 1'b0}), .bit_sum(temp_result), .bit_carry({bit_carry, temp_carry}));
+    Full_Adder  add_vector[SIZE - 1 : 0](.i_BIT_ONE(i_VECTOR_ONE), .i_BIT_TWO(i_VECTOR_TWO), .i_BIT_IN({temp_carry, 1'b0}), .i_BIT_SUM(temp_result), .i_BIT_CARRY({bit_carry, temp_carry}));
 
-    assign  vector_sum = {bit_carry, temp_result};
+    assign  o_VECTOR_SUM = {bit_carry, temp_result};
 
 endmodule

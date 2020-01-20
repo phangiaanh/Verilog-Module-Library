@@ -1,14 +1,15 @@
-module interface(input [6:0]SW, input CLOCK_50, input[1:0]KEY, output [6:0]LEDR, output [6:0]HEX0);
+module interface(input [11:0]SW, input CLOCK_50,input IRDA_RXD, input[1:0]KEY, output [6:0]LEDR, output [6:0]HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
 
-	wire	[3 : 0] num;
-	wire	clock;
+	wire [31 : 0]	hex_data;
+	wire	data_ready;
 	
-	Debouncer	U(.noise_signal(KEY[0]), .clock_source(CLOCK_50), .filter_signal(clock));
-	
-	//Adder	#(.SIZE(6))UDP(.vector_one(SW[5:0]), .vector_two(SW[11:6]), .vector_sum(LEDR));
-	//D_FlipFlop	#(.ASYNCHRONOUS(0))UDP(.signal_in(SW[0]), .signal_out(LEDR[0]), .signal_out_neg(LEDR[1]), .clock_pos(KEY[0]), .reset_neg(SW[1]), .preset_neg(SW[2]));
-	//Gray_Translator	#(.SIZE(7))UDP(.vector_in(SW), .vector_gray_out(LEDR));
-	Counter_Exp_2 UDP(.bit_up(SW[0]), .vector_preset({4{1'b1}}), .vector_reset({4{1'b1}}), .clock_pos(~clock), .vector_out(num));
-	Seven_Segment_Translator	UP(.four_bit_number(num), .common_anod(SW[1]), .seven_segment_number(HEX0[6:0]));
+	//Debouncer	U(.i_NOISE_SIGNAL(KEY[0]), .i_CLOCK_SOURCE(CLOCK_50), .o_FILTER_SIGNAL(clock));
+	IR_Receiver	UX(.i_CLOCK_POS(CLOCK_50), .i_RESET_NEG(KEY[0]), .i_IRDA(IRDA_RXD), .o_DATA_READY(data_ready), .o_DATA(hex_data));
+	Seven_Segment_Translator X[7:0](.i_FOUR_BIT_NUMBER(hex_data), .i_COMMON_ANOD({8{1'b1}}), .o_SEVEN_SEGMENT_NUMBER({HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7}));
+	//Adder	#(.SIZE(6))UDP(.i_VECTOR_ONE(SW[5:0]), .i_VECTOR_TWO(SW[11:6]), .o_VECTOR_SUM(LEDR));
+	//D_FlipFlop	#(.ASYNCHRONOUS(0))UDP(.i_SIGNAL_IN(SW[0]), .o_SIGNAL_OUT(LEDR[0]), .o_SIGNAL_OUT_NEG(LEDR[1]), .i_CLOCK_POS(KEY[0]), .i_RESET_NEG(SW[1]), .i_PRESET_NEG(SW[2]));
+	//Gray_Translator	#(.SIZE(7))UDP(.i_VECTOR_IN(SW[6:0]), .o_VECTOR_GRAY_OUT(LEDR));
+	//Counter_Exp_2 UDP(.i_BIT_UP(SW[0]), .i_VECTOR_PRESET({4{1'b1}}), .i_VECTOR_RESET({4{1'b1}}), .i_CLOCK_POS(~clock), .o_VECTOR_OUT(num));
+	//Seven_Segment_Translator	UP(.i_FOUR_BIT_NUMBER(num), .i_COMMON_ANOD(SW[1]), .o_SEVEN_SEGMENT_NUMBER(HEX0[6:0]));
 	
 endmodule
