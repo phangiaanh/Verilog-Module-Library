@@ -22,7 +22,11 @@ module IR_Receiver( i_CLOCK_POS, i_RESET_NEG, i_IRDA, o_DATA_READY, o_DATA );
     output  [31 : 0]    o_DATA;
     output  o_DATA_READY;
 
+<<<<<<< HEAD
     reg [31 : 0]    o_DATA;            
+=======
+    reg [31 : 0]    oDATA;            
+>>>>>>> 81cd70a789d0a25612c8b8ec050629994d6832c9
     reg [17 : 0]    idle_count;       
     reg idle_count_flag; 
     reg [17 : 0]    state_count;    
@@ -82,7 +86,11 @@ module IR_Receiver( i_CLOCK_POS, i_RESET_NEG, i_IRDA, o_DATA_READY, o_DATA );
     end
 
     always @(posedge i_CLOCK_POS or negedge i_RESET_NEG) begin
+<<<<<<< HEAD
         if (!i_RESET_NEG) state <= IDLE;
+=======
+        if (!i_RESET_NEG) state <= IDLE
+>>>>>>> 81cd70a789d0a25612c8b8ec050629994d6832c9
         else begin
             case (state)
                 IDLE:
@@ -92,6 +100,7 @@ module IR_Receiver( i_CLOCK_POS, i_RESET_NEG, i_IRDA, o_DATA_READY, o_DATA );
                 DATAREAD:
                     if ((data_count >= IDLE_HIGH_DUR) || (bitcount >= 33)) state <= IDLE; 
                 default: 
+<<<<<<< HEAD
                     state <= IDLE;
             endcase     
         end
@@ -123,3 +132,9 @@ module IR_Receiver( i_CLOCK_POS, i_RESET_NEG, i_IRDA, o_DATA_READY, o_DATA );
     end
 
 endmodule
+=======
+                    state <= IDLE
+            endcase     
+        end
+    end
+>>>>>>> 81cd70a789d0a25612c8b8ec050629994d6832c9
